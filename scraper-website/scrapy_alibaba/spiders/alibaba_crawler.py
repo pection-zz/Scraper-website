@@ -23,7 +23,6 @@ class AlibabaCrawlerSpider(scrapy.Spider):
                 search_text = keyword["keyword"]
                 url = "https://www.alibaba.com/trade/search?fsb=y&IndexArea=product_en&CatId=&SearchText={0}&viewtype=G".format(
                     search_text)
-                # The meta is used to send our search text into the parser as metadata
                 yield scrapy.Request(url, callback=self.parse, meta={"search_text": search_text})
 
     def parse(self, response):
