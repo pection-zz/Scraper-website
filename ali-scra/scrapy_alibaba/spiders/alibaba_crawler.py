@@ -14,7 +14,7 @@ class AlibabaCrawlerSpider(scrapy.Spider):
     start_urls = ['http://alibaba.com/']
     extractor = Extractor.from_yaml_file(os.path.join(
         os.path.dirname(__file__), "../resources/search_results.yml"))
-    max_pages = 20
+    max_pages = 1
 
     def start_requests(self):
 
@@ -24,7 +24,9 @@ class AlibabaCrawlerSpider(scrapy.Spider):
                 url = "https://www.alibaba.com/trade/search?fsb=y&IndexArea=product_en&CatId=&SearchText={0}&viewtype=G".format(
                     search_text)
                 # The meta is used to send our search text into the parser as metadata
-                yield scrapy.Request(url, callback=self.parse, meta={"search_text": search_text})
+            urlscraper = "https://www.alibaba.com/trade/search?fsb=y&IndexArea=product_en&CatId=&SearchText=furniture&viewtype=&tab="
+
+            yield scrapy.Request(urlscraper, callback=self.parse, meta={"search_text": search_text})
 
     def parse(self, response):
         data = self.extractor.extract(response.text, base_url=response.url)
